@@ -50,6 +50,10 @@ pipeline {
                         dir('/home/jenkins/workspace'){
 
                             sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
+                            sh "ls -la"
+                            sh "pwd"
+                            sh "cd ./WeatherApp-Helm"
+                            sh "ls -la"
                             sh 'chmod +x ./WeatherApp-Helm/version.sh'
                             sh "./WeatherApp-Helm/version.sh $BUILD_NUMBER"
 
