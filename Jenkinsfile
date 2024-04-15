@@ -46,35 +46,41 @@ pipeline {
         stage('Update Helm chart') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'GitHubCredentials', passwordVariable: 'GitHub_Token', usernameVariable: 'GitHub_User')]) {
-                script{
+                    script{
+                        dir('/home/jenkins/workspace'){
 
-                    sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
-                    sh 'chmod +x ./WeatherApp-Helm/version.sh'
-                    sh "./WeatherApp-Helm/version.sh $BUILD_NUMBER"
+                            sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
+                            sh 'chmod +x ./WeatherApp-Helm/version.sh'
+                            sh "./WeatherApp-Helm/version.sh $BUILD_NUMBER"
 
-                    sh 'git add .'
-                    sh 'git commit -m "JenkinsAction: Update Docker image tag"'
+                            sh 'git add .'
+                            sh 'git config --global user.email benshahar99@gmail.com'
+                            sh 'git config --global user.name Ben'
+                            sh 'git commit -m "JenkinsAction: Update Docker image tag"'
+                            sh 'git push'
+                        }
+                    }
                 }
-               }
             }
         }
 
-        // post {
-        //     always {
-        //         script {
-        //             if (Weatherapp_running == true) {
-        //                 dir('./WeatherAppCompose') {
-        //                     sh 'docker compose down'
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     success {
-        //         slackSend(channel: '#bens-pipeline-notifications-success', color: 'good', message: "Build #${env.BUILD_NUMBER} successful!")
-        //     }
-        //     failure {
-        //         slackSend(channel: '#bens-pipeline-notifications-failed', color: 'bad', message: "Build #${env.BUILD_NUMBER} failed successfully!")
-        //     }
-        // }
+        post {
+            always {
+            //     script {
+            //         if (Weatherapp_running == true) {
+            //             dir('./WeatherAppCompose') {
+            //                 sh 'docker compose down'
+            //             }
+            //         }
+            //     }
+            // }
+            // success {
+            //     slackSend(channel: '#bens-pipeline-notifications-success', color: 'good', message: "Build #${env.BUILD_NUMBER} successful!")
+            // }
+            // failure {
+            //     slackSend(channel: '#bens-pipeline-notifications-failed', color: 'bad', message: "Build #${env.BUILD_NUMBER} failed successfully!")
+                cleanWs()
+            }
+        }
     }
 }
