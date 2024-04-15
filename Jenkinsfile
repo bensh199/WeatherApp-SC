@@ -63,24 +63,5 @@ pipeline {
                 }
             }
         }
-
-        post {
-            always {
-            //     script {
-            //         if (Weatherapp_running == true) {
-            //             dir('./WeatherAppCompose') {
-            //                 sh 'docker compose down'
-            //             }
-            //         }
-            //     }
-            // }
-            // success {
-            //     slackSend(channel: '#bens-pipeline-notifications-success', color: 'good', message: "Build #${env.BUILD_NUMBER} successful!")
-            // }
-            // failure {
-            //     slackSend(channel: '#bens-pipeline-notifications-failed', color: 'bad', message: "Build #${env.BUILD_NUMBER} failed successfully!")
-                cleanWs()
-            }
-        }
     }
 }
