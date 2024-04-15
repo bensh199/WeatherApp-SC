@@ -50,18 +50,20 @@ pipeline {
                         dir('/home/jenkins/workspace'){
 
                             sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
-                            sh "ls -la"
-                            sh "pwd"
-                            sh "cd ./WeatherApp-Helm"
-                            sh "ls -la"
-                            sh 'chmod +x ./WeatherApp-Helm/version.sh'
-                            sh "./WeatherApp-Helm/version.sh $BUILD_NUMBER"
+                            // sh "ls -la"
+                            // sh "pwd"
+                            // sh "cd ./WeatherApp-Helm"
+                            // sh "ls -la"
+                            dir('/home/jenkins/workspace/WeatherApp-Helm'){
+                                sh 'chmod +x ./version.sh'
+                                sh "./version.sh $BUILD_NUMBER"
 
-                            sh 'git add .'
-                            sh 'git config --global user.email benshahar99@gmail.com'
-                            sh 'git config --global user.name Ben'
-                            sh 'git commit -m "JenkinsAction: Update Docker image tag"'
-                            sh 'git push'
+                                sh 'git add .'
+                                sh 'git config --global user.email benshahar99@gmail.com'
+                                sh 'git config --global user.name Ben'
+                                sh 'git commit -m "JenkinsAction: Update Docker image tag"'
+                                sh 'git push'
+                            }
                         }
                     }
                 }
