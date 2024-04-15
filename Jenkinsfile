@@ -11,7 +11,7 @@ pipeline {
         stage('build') {
             steps {
                 dir('./Python-Project') {
-                    sh 'docker build -t bensh99/weatherapp .'
+                    sh "docker build -t bensh99/weatherapp:$BUILD_NUMBER ."
                 }
             }
         }
@@ -20,11 +20,13 @@ pipeline {
             steps {
                 dir('./Python-Project') {
                     script {
+                        sh "docker run --rm -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
                         Weatherapp_running = true
                     }
                 }
                 dir('./Python-Project') {
                     sh 'python3 test.py'
+                    sh "docker kill bensh99/weatherapp:$BUILD_NUMBER"
                 }
             }
         }
