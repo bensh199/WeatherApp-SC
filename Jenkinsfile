@@ -20,13 +20,13 @@ pipeline {
             steps {
                 dir('./Python-Project') {
                     script {
-                        sh "docker run --rm --name bensh99/weatherapp:$BUILD_NUMBER -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
+                        sh "docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
                         Weatherapp_running = true
                     }
                 }
                 dir('./Python-Project') {
                     sh 'python3 test.py'
-                    sh "docker kill bensh99/weatherapp:$BUILD_NUMBER"
+                    sh "docker kill weatherapp"
                 }
             }
         }
