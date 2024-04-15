@@ -20,7 +20,7 @@ pipeline {
             steps {
                 dir('./Python-Project') {
                     script {
-                        sh "docker run --rm -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
+                        sh "docker run --rm --name bensh99/weatherapp:$BUILD_NUMBER -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
                         Weatherapp_running = true
                     }
                 }
