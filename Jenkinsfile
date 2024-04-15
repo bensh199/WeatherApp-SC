@@ -19,7 +19,6 @@ pipeline {
         stage('test') {
             steps {
                 dir('./Python-Project') {
-                    sh 'docker compose up -d'
                     script {
                         Weatherapp_running = true
                     }
