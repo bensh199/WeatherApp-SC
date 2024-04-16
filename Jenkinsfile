@@ -66,7 +66,8 @@ pipeline {
     post {
         always {
             sh 'docker logout'
-            cleanWs()
+            cleanWs(deleteDirs: true,
+                    disableDeferredWipeout: true)
         }
     }
 }
