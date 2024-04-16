@@ -55,6 +55,7 @@ pipeline {
                                 sh 'git commit -m "JenkinsAction: Update Docker image tag"'
                                 sh 'git push'
                             }
+                            sh "rm -rf ./WeatherApp-Helm/"
                         }
                     }
                 }
