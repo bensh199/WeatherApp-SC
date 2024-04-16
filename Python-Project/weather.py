@@ -2,6 +2,7 @@ import requests
 import datetime
 import boto3
 from flask import Response
+import json
 
 def geolocation(city: str):
     try:
@@ -74,5 +75,16 @@ def update_dynamodb(items):
 
     return response
 
+def save_data_to_file(data):
+
+    json_data = json.dumps(data)
+    city = data["city"]
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    file_name = f"{city}-{timestamp}.json"
+
+    with open(f"Searches/{file_name}", "a") as file:
+        file.write(json_data)
+
 if __name__ == "__main__":
-    update_dynamodb()
+    pass

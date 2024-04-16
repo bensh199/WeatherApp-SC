@@ -7,7 +7,7 @@ pipeline {
         stage('build') {
             steps {
                 dir('./Python-Project') {
-                    sh "docker build -t bensh99/weatherapp:$BUILD_NUMBER ."
+                    sh "docker build -t bensh99/weatherapp:V1.$BUILD_NUMBER ."
                 }
             }
         }
@@ -16,7 +16,7 @@ pipeline {
             steps {
                 dir('./Python-Project') {
                     script {
-                        sh "docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:$BUILD_NUMBER"
+                        sh "docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$BUILD_NUMBER"
                         Weatherapp_running = true
                     }
                 }
@@ -27,13 +27,12 @@ pipeline {
             }
         }
 
-        stage('push') {
+        stage('publish') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'HUB_PASSWORD', usernameVariable: 'HUB_USERNAME')]) {
                     script {
                         sh "docker login -u $HUB_USERNAME -p $HUB_PASSWORD"
-                        sh "docker push bensh99/weatherapp:$BUILD_NUMBER"
-                        sh 'docker logout'
+                        sh "docker push bensh99/weatherapp:V1.$BUILD_NUMBER"
                     }
                 }
             }
@@ -48,7 +47,7 @@ pipeline {
                             sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
                             dir('/home/jenkins/workspace/WeatherApp-Helm'){
                                 sh 'chmod +x ./version.sh'
-                                sh "./version.sh $BUILD_NUMBER"
+                                sh "./version.sh V1.$BUILD_NUMBER"
 
                                 sh 'git add .'
                                 sh 'git config --global user.email benshahar99@gmail.com'
@@ -60,6 +59,12 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }
