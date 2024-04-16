@@ -3,10 +3,6 @@ def Weatherapp_running = false
 pipeline {
     agent any
 
-    // environment {
-    //     TARGET_HOST = '172.31.42.31'
-    // }
-
     stages {
         stage('build') {
             steps {
@@ -50,10 +46,6 @@ pipeline {
                         dir('/home/jenkins/workspace'){
 
                             sh "git clone https://$GitHub_Token@github.com/bensh199/WeatherApp-Helm.git"
-                            // sh "ls -la"
-                            // sh "pwd"
-                            // sh "cd ./WeatherApp-Helm"
-                            // sh "ls -la"
                             dir('/home/jenkins/workspace/WeatherApp-Helm'){
                                 sh 'chmod +x ./version.sh'
                                 sh "./version.sh $BUILD_NUMBER"
