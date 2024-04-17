@@ -20,13 +20,11 @@ pipeline {
 
         stage('Test') {
             steps {
-                withCredentials([string(credentialsId: 'SnykToken', variable: 'SNYK_TOKEN')]){
-                    echo 'Testing...'
-                    snykSecurity(
-                    snykInstallation: 'Snyk@Latest',
-                    snykTokenId: "$SNYK_TOKEN",
-                    )
-                }
+                echo 'Testing...'
+                snykSecurity(
+                snykInstallation: 'Snyk@Latest',
+                snykTokenId: 'SnykToken',
+                )
             }
         }
 
