@@ -18,13 +18,14 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Snyk Tests') {
             steps {
                 dir('./Python-Project'){   
                     echo 'Testing...'
                     snykSecurity(
                     snykInstallation: 'Snyk@Latest',
                     snykTokenId: 'SnykToken',
+                    targetFile: Dockerfile,
                     )
                 }
             }
