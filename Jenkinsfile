@@ -4,10 +4,28 @@ pipeline {
     agent any
 
     stages {
+        // stage('static anaysis') {
+        //     steps {
+        //         {{ SONARCLOUD }}
+        //     }
+        // }
+
         stage('build') {
             steps {
                 dir('./Python-Project') {
                     sh "docker build -t bensh99/weatherapp:V1.$BUILD_NUMBER ."
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]){
+                    echo 'Testing...'
+                    snykSecurity(
+                    snykInstallation: 'Snyk@Latest',
+                    snykTokenId: "$SNYK_TOKEN",
+                    )
                 }
             }
         }
