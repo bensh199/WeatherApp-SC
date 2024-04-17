@@ -3,14 +3,21 @@ def Weatherapp_running = false
 pipeline {
     agent any
 
+    environment {
+        SONAR_SCANNER_HOME = tool 'SonarScanner'
+    }
+
     stages {
-        stage('SonarQube Scan') {
-            environment {
-                SONARQUBE_SERVER = 'SonarScanner' // Use the name configured in Jenkins
-            }
+
+        stage('Static analysis') {
             steps {
-                withSonarQubeEnv('SonarScanner') {
-                    sh 'sonar-scanner' // Execute SonarQube Scanner
+                withSonarQubeEnv(installationName: 'SonarScanner') {
+                    sh """${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                        -Dsonar.organization=bensh199 \
+                        -Dsonar.projectKey=bensh199_weatherapp-eks \
+                        -Dsonar.sources=./Python-Project \
+                        -Dsonar.python.coverage.reportPaths=coverage.xml \
+                        -Dsonar.python.xunit.reportPaths=test_results.xml"""
                 }
             }
         }
