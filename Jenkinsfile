@@ -26,6 +26,7 @@ pipeline {
                     snykInstallation: 'Snyk@Latest',
                     snykTokenId: 'SnykToken',
                     targetFile: 'Dockerfile',
+                    additionalArguments: '--package-manager=pip',
                     )
                 }
             }
