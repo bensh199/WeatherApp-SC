@@ -4,11 +4,16 @@ pipeline {
     agent any
 
     stages {
-        // stage('static anaysis') {
-        //     steps {
-        //         {{ SONARCLOUD }}
-        //     }
-        // }
+        stage('SonarQube Scan') {
+            environment {
+                SONARQUBE_SERVER = 'SonarQube' // Use the name configured in Jenkins
+            }
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner' // Execute SonarQube Scanner
+                }
+            }
+        }
 
         stage('build') {
             steps {
@@ -18,19 +23,19 @@ pipeline {
             }
         }
 
-        stage('Snyk Tests') {
-            steps {
-                dir('./Python-Project'){   
-                    echo 'Testing...'
-                    snykSecurity(
-                    snykInstallation: 'Snyk@Latest',
-                    snykTokenId: 'SnykToken',
-                    targetFile: 'Dockerfile',
-                    additionalArguments: '--package-manager=pip',
-                    )
-                }
-            }
-        }
+        // stage('Snyk Tests') {
+        //     steps {
+        //         dir('./Python-Project'){   
+        //             echo 'Testing...'
+        //             snykSecurity(
+        //             snykInstallation: 'Snyk@Latest',
+        //             snykTokenId: 'SnykToken',
+        //             targetFile: 'Dockerfile',
+        //             additionalArguments: '--package-manager=pip',
+        //             )
+        //         }
+        //     }
+        // }
 
         stage('test') {
             steps {
