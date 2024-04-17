@@ -9,7 +9,7 @@ pipeline {
                 SONARQUBE_SERVER = 'SonarScanner' // Use the name configured in Jenkins
             }
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarScanner') {
                     sh 'sonar-scanner' // Execute SonarQube Scanner
                 }
             }
