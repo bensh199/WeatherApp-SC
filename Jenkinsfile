@@ -4,7 +4,8 @@ pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool 'SonarScanner'
+        SONAR_SCANNER = tool 'SonarScanner'
+        SNYK = tool name: 'Snyk@Latest'
     }
 
     stages {
@@ -12,7 +13,7 @@ pipeline {
         stage('Static analysis') {
             steps {
                 withSonarQubeEnv(installationName: 'SonarScanner') {
-                    sh """${SONAR_SCANNER_HOME}/bin/sonar-scanner \
+                    sh """${SONAR_SCANNER}/bin/sonar-scanner \
                         -Dsonar.organization=bensh199 \
                         -Dsonar.projectKey=bensh199_weatherapp-eks \
                         -Dsonar.sources=./Python-Project \
@@ -30,19 +31,19 @@ pipeline {
             }
         }
 
-        // stage('Snyk Tests') {
-        //     steps {
-        //         dir('./Python-Project'){   
-        //             echo 'Testing...'
-        //             snykSecurity(
-        //             snykInstallation: 'Snyk@Latest',
-        //             snykTokenId: 'SnykToken',
-        //             targetFile: 'Dockerfile',
-        //             additionalArguments: '--package-manager=pip',
-        //             )
-        //         }
-        //     }
-        // }
+        stage('Snyk Tests') {
+            steps {
+                dir('./Python-Project'){   
+                    echo 'Testing...'
+                    snykSecurity(
+                    snykInstallation: 'Snyk@Latest',
+                    snykTokenId: 'SnykToken',
+                    targetFile: 'Dockerfile',
+                    additionalArguments: '--package-manager=pip',
+                    )
+                }
+            }
+        }
 
         stage('test') {
             steps {
