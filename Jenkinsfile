@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('SonarQube Scan') {
             environment {
-                SONARQUBE_SERVER = 'SonarQube' // Use the name configured in Jenkins
+                SONARQUBE_SERVER = 'SonarScanner' // Use the name configured in Jenkins
             }
             steps {
                 withSonarQubeEnv('SonarQube') {
