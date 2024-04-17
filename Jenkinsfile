@@ -34,9 +34,11 @@ pipeline {
         stage('Snyk Tests') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'SnykAPI', variable: 'TOKEN')]) {
-                            sh "$SNYK/snyk-linux auth $TOKEN"
-                            sh "$SNYK/snyk-linux container test bensh99/weatherapp:V1.$BUILD_NUMBER --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical"
+                    dir('./Python-Project'){
+                        withCredentials([string(credentialsId: 'SnykAPI', variable: 'TOKEN')]) {
+                                sh "$SNYK/snyk-linux auth $TOKEN"
+                                sh "$SNYK/snyk-linux container test bensh99/weatherapp:V1.$BUILD_NUMBER --file=Dockerfile --json-file-output=./snyk.json --severity-threshold=critical"
+                        }
                     }
                 }
             }
