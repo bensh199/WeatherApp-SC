@@ -20,11 +20,13 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Testing...'
-                snykSecurity(
-                snykInstallation: 'Snyk@Latest',
-                snykTokenId: 'SnykToken',
-                )
+                dir('./Python-Project'){   
+                    echo 'Testing...'
+                    snykSecurity(
+                    snykInstallation: 'Snyk@Latest',
+                    snykTokenId: 'SnykToken',
+                    )
+                }
             }
         }
 
