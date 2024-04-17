@@ -25,7 +25,7 @@ pipeline {
                     snykSecurity(
                     snykInstallation: 'Snyk@Latest',
                     snykTokenId: 'SnykToken',
-                    targetFile: Dockerfile,
+                    targetFile: 'Dockerfile',
                     )
                 }
             }
