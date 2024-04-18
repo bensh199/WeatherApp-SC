@@ -66,6 +66,7 @@ pipeline {
                     script {
                         sh "docker login -u $HUB_USERNAME -p $HUB_PASSWORD"
                         sh "docker push bensh99/weatherapp:V1.$BUILD_NUMBER"
+                        sh "docker push bensh99/weatherapp:latest"
                     }
                 }
             }
