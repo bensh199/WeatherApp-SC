@@ -26,6 +26,7 @@ pipeline {
                 dir('./Python-Project') {
                     sh "docker build -t bensh99/weatherapp:V1.$BUILD_NUMBER ."
                     sh "docker tag bensh99/weatherapp:V1.$BUILD_NUMBER bensh99/weatherapp-features:V1.$BUILD_NUMBER"
+                    sh "docker tag bensh99/weatherapp:V1.$BUILD_NUMBER bensh99/weatherapp:latest"
                 }
             }
         }
