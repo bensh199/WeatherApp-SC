@@ -56,7 +56,10 @@ pipeline {
             }
         }
 
-        stage('publish') {
+        stage('publish to production repo') {
+            when {
+                branch 'main'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'HUB_PASSWORD', usernameVariable: 'HUB_USERNAME')]) {
                     script {
@@ -67,7 +70,24 @@ pipeline {
             }
         }
 
+        stage('publish to feature repo') {
+            when {
+                branch 'feature'
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'HUB_PASSWORD', usernameVariable: 'HUB_USERNAME')]) {
+                    script {
+                        sh "docker login -u $HUB_USERNAME -p $HUB_PASSWORD"
+                        sh "docker push bensh99/weatherapp-features:V1.$BUILD_NUMBER"
+                    }
+                }
+            }
+        }
+
         stage('Update Helm chart') {
+            when {
+                branch 'main'
+            }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'GitHubCredentials', passwordVariable: 'GitHub_Token', usernameVariable: 'GitHub_User')]) {
                     script{
