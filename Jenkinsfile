@@ -78,7 +78,6 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DockerHubCredentials', passwordVariable: 'HUB_PASSWORD', usernameVariable: 'HUB_USERNAME')]) {
                     script {
-                        sh "docker tag "
                         sh "docker login -u $HUB_USERNAME -p $HUB_PASSWORD"
                         sh "docker push bensh99/weatherapp-features:V1.$BUILD_NUMBER"
                     }
