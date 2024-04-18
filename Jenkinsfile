@@ -1,5 +1,3 @@
-def Weatherapp_running = false
-
 pipeline {
     agent any
 
@@ -49,7 +47,6 @@ pipeline {
                 dir('./Python-Project') {
                     script {
                         sh "docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$BUILD_NUMBER"
-                        Weatherapp_running = true
                     }
                 }
                 dir('./Python-Project') {
