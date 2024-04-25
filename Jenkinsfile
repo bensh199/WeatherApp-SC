@@ -11,12 +11,12 @@ pipeline {
         stage('Static analysis') {
             steps {
                 withSonarQubeEnv(installationName: 'SonarScanner') {
-                    sh """${SONAR_SCANNER}/bin/sonar-scanner \
+                    sh "${SONAR_SCANNER}/bin/sonar-scanner \
                         -Dsonar.organization=bensh199 \
                         -Dsonar.projectKey=bensh199_weatherapp-eks \
                         -Dsonar.sources=./Python-Project \
                         -Dsonar.python.coverage.reportPaths=coverage.xml \
-                        -Dsonar.python.xunit.reportPaths=test_results.xml"""
+                        -Dsonar.python.xunit.reportPaths=test_results.xml"
                 }
             }
         }
@@ -82,6 +82,7 @@ pipeline {
                     script {
                         sh "docker login -u $HUB_USERNAME -p $HUB_PASSWORD"
                         sh "docker push bensh99/weatherapp-features:V1.$BUILD_NUMBER"
+                        sh "docker push bensh99/weatherapp:latest"
                     }
                 }
             }
@@ -104,8 +105,8 @@ pipeline {
                                 sh 'git add .'
                                 sh 'git config --global user.email benshahar99@gmail.com'
                                 sh 'git config --global user.name Ben'
-                                sh 'git commit -m "JenkinsAction: Update Docker image tag"'
-                                sh 'git push'
+                                sh """git commit -m "JenkinsAction $BUILD_NUMBER: Update Docker image tag"""
+                                sh "git push"
                             }
                             sh "rm -rf ./WeatherApp-Helm/"
                         }
