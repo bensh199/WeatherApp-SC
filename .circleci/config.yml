@@ -29,6 +29,16 @@ jobs:
             aws configure set aws_access_key $AWS_ACCESS_KEY_ID
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
             aws configure set default.region il-central-1
+        
+      - run:
+          name: Install OpenTofu
+          command: |
+            curl -L "https://github.com/opentofu/opentofu/releases/download/v1.6.0-alpha1/tofu_1.6.0-alpha1_linux_amd64.zip" -o tofu.zip
+            unzip -o tofu.zip
+            sudo install -m 0755 tofu /usr/local/bin/tofu
+            rm -rf tofu
+            rm -rf tofu.zip
+            tofu --version
 
       - run:
           name: run terratest
