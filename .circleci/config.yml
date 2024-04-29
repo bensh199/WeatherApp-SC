@@ -31,9 +31,9 @@ jobs:
             aws configure set default.region il-central-1
 
       - run:
-          name: test cli
+          name: run terratest
           command: |
-            aws ec2 describe-instances --output text
+            go test -v -timeout 30m -run ./WeatherApp-infra/Terraform/Terraform-modules/Tests/Terraform_test.go
           
 
   build:
