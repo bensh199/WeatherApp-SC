@@ -24,8 +24,8 @@ jobs:
           name: install and configure awscli
           command: |
             sudo apt-get update
-            sudo apt install python3-pip -y
-            sudo pip3 install awsebcli --upgrade -y
+            sudo apt install python3-pip
+            sudo pip3 install awsebcli --upgrade
             aws configure set aws_access_key $AWS_ACCESS_KEY_ID
             aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
 
@@ -66,4 +66,6 @@ workflows:
   build-image:
     jobs:
       - terratest
-      - build
+      - build:
+          requires:
+            - terratest
