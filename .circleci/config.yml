@@ -11,6 +11,16 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  terratest:
+    docker:
+      - image: cimg/go:1.22.2
+    steps:
+      - run:
+          name: pull infra repo
+          command: |
+            git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
+          
+
   build:
     docker:
       - image: cimg/base:current
@@ -41,4 +51,5 @@ jobs:
 workflows:
   build-image:
     jobs:
+      - terratest
       - build
