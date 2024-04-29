@@ -19,6 +19,20 @@ jobs:
           name: pull infra repo
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
+
+      - run:
+          name: install and configure awscli
+          command: |
+            sudo apt-get update
+            sudo apt install python3-pip -y
+            sudo pip3 install awsebcli --upgrade -y
+            aws configure set aws_access_key $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+
+      - run:
+          name: test cli
+          command: |
+            aws ec2 describe-instances --output text
           
 
   build:
