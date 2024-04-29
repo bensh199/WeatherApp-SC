@@ -33,7 +33,10 @@ jobs:
       - run:
           name: run terratest
           command: |
-            go test -v -timeout 30m -run ./WeatherApp-infra/Terraform/Terraform-modules/Tests/Terraform_test.go
+            cd WeatherApp-infra/Terraform/Terraform-modules/Tests
+            go mod init test
+            go mod tidy
+            go test -v -timeout 30m
           
 
   build:
