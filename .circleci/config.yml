@@ -28,8 +28,8 @@ jobs:
           name: build image
           command: |
             docker build -t bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM ./Python-Project/.
-            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp-features:V1.$CIRCLE_BUILD_NUM"
-            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp:latest"
+            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp-features:V1.$CIRCLE_BUILD_NUM
+            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp:latest
       
       - run:
           name: publish docker image
