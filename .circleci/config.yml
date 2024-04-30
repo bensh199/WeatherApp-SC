@@ -19,7 +19,7 @@ jobs:
           name: pull infra repo
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
-            export ROOT_PATH=$(pwd)
+            export TF_VAR_ROOT_PATH=$(pwd)
             ls -ltR
             echo ############################################################
             env
