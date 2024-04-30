@@ -12,7 +12,6 @@ jobs:
           name: pull infra repo
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
-            export TF_VAR_ROOT_PATH=$(pwd)
             ls -ltR
             echo ############################################################
             env
@@ -36,6 +35,8 @@ jobs:
       - run:
           name: run terratest
           command: |
+            export TF_VAR_ROOT_PATH=$(pwd)
+            env
             cd WeatherApp-infra/Terraform/Terraform-modules/Tests
             go mod init test
             go mod tidy
