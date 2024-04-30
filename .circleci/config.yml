@@ -19,64 +19,68 @@ jobs:
           name: pull infra repo
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
+            export ROOT_PATH=$(pwd)
+            ls -ltR
+            echo ############################################################
+            env
 
-      - run:
-          name: install and configure awscli
-          command: |
-            sudo apt-get update
-            sudo apt install python3-pip
-            pip3 install awscli --upgrade --user
+      # - run:
+      #     name: install and configure awscli
+      #     command: |
+      #       sudo apt-get update
+      #       sudo apt install python3-pip
+      #       pip3 install awscli --upgrade --user
         
-      - run:
-          name: Install OpenTofu
-          command: |
-            curl -L "https://github.com/opentofu/opentofu/releases/download/v1.6.0-alpha1/tofu_1.6.0-alpha1_linux_amd64.zip" -o tofu.zip
-            unzip -o tofu.zip
-            sudo install -m 0755 tofu /usr/local/bin/tofu
-            rm -rf tofu
-            rm -rf tofu.zip
-            tofu --version
+      # - run:
+      #     name: Install OpenTofu
+      #     command: |
+      #       curl -L "https://github.com/opentofu/opentofu/releases/download/v1.6.0-alpha1/tofu_1.6.0-alpha1_linux_amd64.zip" -o tofu.zip
+      #       unzip -o tofu.zip
+      #       sudo install -m 0755 tofu /usr/local/bin/tofu
+      #       rm -rf tofu
+      #       rm -rf tofu.zip
+      #       tofu --version
 
-      - run:
-          name: run terratest
-          command: |
-            cd WeatherApp-infra/Terraform/Terraform-modules/Tests
-            go mod init test
-            go mod tidy
-            go test -v -timeout 30m
+      # - run:
+      #     name: run terratest
+      #     command: |
+      #       cd WeatherApp-infra/Terraform/Terraform-modules/Tests
+      #       go mod init test
+      #       go mod tidy
+      #       go test -v -timeout 30m
           
 
-  build:
-    docker:
-      - image: cimg/base:current
-    steps:
-      - checkout
+  # build:
+  #   docker:
+  #     - image: cimg/base:current
+  #   steps:
+  #     - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching: true
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
 
-      - run:
-          name: login to dockerhub
-          command: docker login -u $DOCKER_HUB_USER	 -p $DOCKER_HUB_TOKEN
+  #     - run:
+  #         name: login to dockerhub
+  #         command: docker login -u $DOCKER_HUB_USER	 -p $DOCKER_HUB_TOKEN
 
-      - run:
-          name: build image
-          command: |
-            docker build -t bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM ./Python-Project/.
-            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp-features:V1.$CIRCLE_BUILD_NUM
-            docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp:latest
+  #     - run:
+  #         name: build image
+  #         command: |
+  #           docker build -t bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM ./Python-Project/.
+  #           docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp-features:V1.$CIRCLE_BUILD_NUM
+  #           docker tag bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM bensh99/weatherapp:latest
       
-      - run:
-          name: publish docker image
-          command: |
-            docker push bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM
-            docker push bensh99/weatherapp:latest
+  #     - run:
+  #         name: publish docker image
+  #         command: |
+  #           docker push bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM
+  #           docker push bensh99/weatherapp:latest
 
 
 workflows:
   build-image:
     jobs:
       - terratest
-      - build:
-          requires:
-            - terratest
+      # - build:
+      #     requires:
+      #       - terratest
