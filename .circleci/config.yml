@@ -45,6 +45,7 @@ jobs:
           name: run terratest
           command: |
             cd WeatherApp-infra/Terraform/Terraform-modules/Tests
+            tofu init
             go mod init test
             go mod tidy
             go test -v -timeout 30m
