@@ -32,21 +32,20 @@ jobs:
             pip3 install awscli --upgrade --user
             AWS_REGION=il-central-1
         
-      - run:
-          name: Install OpenTofu
-          command: |
-            curl -L "https://github.com/opentofu/opentofu/releases/download/v1.6.0-alpha1/tofu_1.6.0-alpha1_linux_amd64.zip" -o tofu.zip
-            unzip -o tofu.zip
-            sudo install -m 0755 tofu /usr/local/bin/tofu
-            rm -rf tofu
-            rm -rf tofu.zip
-            tofu --version
+      # - run:
+      #     name: Install OpenTofu
+      #     command: |
+      #       curl -L "https://github.com/opentofu/opentofu/releases/download/v1.6.0-alpha1/tofu_1.6.0-alpha1_linux_amd64.zip" -o tofu.zip
+      #       unzip -o tofu.zip
+      #       sudo install -m 0755 tofu /usr/local/bin/tofu
+      #       rm -rf tofu
+      #       rm -rf tofu.zip
+      #       tofu --version
 
       - run:
           name: run terratest
           command: |
             cd WeatherApp-infra/Terraform/Terraform-modules/Tests
-            tofu init
             go mod init test
             go mod tidy
             go test -v -timeout 30m
