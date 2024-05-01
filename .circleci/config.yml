@@ -12,9 +12,6 @@ jobs:
           name: pull infra repo
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
-            ls -ltR
-            echo ############################################################
-            env
 
       - run:
           name: install and configure awscli
