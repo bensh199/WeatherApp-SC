@@ -108,7 +108,8 @@ jobs:
       - run:
           name: test new image
           command: |
-            docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$BUILD_NUMBER
+            docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM
+            python3 ./WeatherApp-SC/Python-Project/test.py
 
 
 workflows:
