@@ -108,6 +108,8 @@ jobs:
       - run:
           name: test new image
           command: |
+            pwd
+            ls -laR
             docker pull bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
             docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
             python3 WeatherApp-SC/Python-Project/test.py
