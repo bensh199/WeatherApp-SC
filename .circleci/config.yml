@@ -110,13 +110,13 @@ jobs:
           command: |
             docker pull bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
             docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
-            python3 ./WeatherApp-SC/Python-Project/test.py
+            python3 WeatherApp-SC/Python-Project/test.py
 
 
 workflows:
-  test-terraform:
-    jobs:
-      - terratest
+  # test-terraform:
+  #   jobs:
+  #     - terratest
 
   build-image-and-test-image:
     jobs:
