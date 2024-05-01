@@ -91,11 +91,34 @@ jobs:
             docker push bensh99/weatherapp:V1.$CIRCLE_BUILD_NUM
             docker push bensh99/weatherapp:latest
 
+  test:
+    docker:
+      - image: cimg/python:3.12.3
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - checkout
+
+      - run:
+          name: install python libraries
+          command: |
+            pip install requests
+
+      - run:
+          name: test new image
+          command: |
+            docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$BUILD_NUMBER
+
 
 workflows:
-  build-image:
+  test-terraform:
     jobs:
       - terratest
-      - build:
+
+  build-image-and-test-image:
+    jobs:
+      - build
+      - test:
           requires:
-            - terratest
+            - build
