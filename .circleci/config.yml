@@ -116,9 +116,9 @@ jobs:
 
 
 workflows:
-  # test-terraform:
-  #   jobs:
-  #     - terratest
+  test-terraform:
+    jobs:
+      - terratest
 
   build-image-and-test-image:
     jobs:
