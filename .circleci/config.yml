@@ -56,7 +56,7 @@ jobs:
           command: |
             docker build -t bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID ./Python-Project/.
             docker tag bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID
-            docker tag bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID bensh99/bensh99/weatherapp-features:latest
+            docker tag bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID bensh99/weatherapp-features:latest
       
       - run:
           name: publish docker pre-test
