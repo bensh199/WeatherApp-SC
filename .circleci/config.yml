@@ -158,7 +158,11 @@ jobs:
 workflows:
   test-terraform-and-deploy-infra:
       jobs:
-        - terratest
+        - terratest:
+            filters:
+              branches:
+                only:
+                  - main
 
   build-image-and-test-image-deploy:
     jobs:
@@ -167,11 +171,13 @@ workflows:
             branches:
               only:
                 - dev
+                - main
       - test:
           filters:
             branches:
               only:
                 - dev
+                - main
           requires:
             - build
       - publish:
@@ -179,6 +185,7 @@ workflows:
             branches:
               only:
                 - dev
+                - main
           requires:
             - test
       - deploy:
