@@ -13,44 +13,6 @@ jobs:
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
 
-      # - run:
-      #     name: install and configure awscli
-      #     command: |
-      #       sudo apt-get update
-      #       sudo apt install python3-pip
-      #       pip3 install awscli --upgrade --user
-      #       AWS_REGION=il-central-1
-
-
-      # - run:
-      #     name: install terraform
-      #     command: |
-      #       wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-      #       echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-      #       sudo apt update && sudo apt install terraform
-
-      # - run:
-      #     name: install kubectl
-      #     command: |
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-      #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-      # - run:
-      #     name: install helm
-      #     command: |
-      #       curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-      #       chmod 700 get_helm.sh
-      #       ./get_helm.sh
-
-      # - run:
-      #     name: install eksctl
-      #     command: |
-      #       ARCH=amd64
-      #       PLATFORM=$(uname -s)_$ARCH
-      #       curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-      #       tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-      #       sudo mv /tmp/eksctl /usr/local/bin
-
       - run:
           name: run terratest
           command: |
@@ -61,6 +23,14 @@ jobs:
             go mod init test
             go mod tidy
             go test -v -timeout 30m
+
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory in the execution
+          # environment which is taken to be the root directory of the workspace.
+          root: /home/circleci/.kube
+          # Must be relative path from root
+          paths:
+            - config
           
 
   build:
@@ -84,10 +54,19 @@ jobs:
             docker tag bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID bensh99/weatherapp:latest
       
       - run:
-          name: publish docker image
+          name: publish docker pre-test
           command: |
             docker push bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
             docker push bensh99/weatherapp:latest
+      
+      - run:
+          name: save image as artifact
+          command: |
+            docker save bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID > /home/circleci/project/bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID.tar
+
+      - store_artifacts:
+          path: /home/circleci/project
+          destination: bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID.tar
 
   test:
     docker:
@@ -112,15 +91,99 @@ jobs:
             docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
             python3 Python-Project/test.py
 
+  publish:
+    docker:
+      - image: cimg/base:2024.05
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      
+      - run:
+          name: login to docker-hub
+          command: |
+             command: docker login -u $DOCKER_HUB_USER	 -p $DOCKER_HUB_TOKEN
+
+      - run:
+          name: publish to production
+          command: |
+            docker pull bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID
+            docker tag bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
+            docker push bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID bensh99/weatherapp-features:V1.$CIRCLE_WORKFLOW_ID
+
+  deploy:
+    docker:
+      - image: bensh99/circleci-terratest:latest
+    steps:
+      - run:
+          name: setup kubeconfig
+          command: |
+            mkdir -p /home/.kube
+
+      - attach_workspace:
+          at: /home/.kube
+
+      - run:
+          name: install argocd
+          command: |
+            curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+            sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+            rm argocd-linux-amd64
+
+      - run:
+          name: login to the argocd server
+          command: |
+            export KUBE_CONFIG_PATH=/home/circleci/.kube/config
+            ARGOCD_ADMIN_PASS=argocd admin initial-password - argocd
+            argocd login argocd.whats-the-weather.com:443 --username admin --password $ARGOCD_ADMIN_PASS
+
+      - run:
+          name: clone and update helm repo
+          command: |
+            git clone https://$HELM_REPO_TOKEN@github.com/bensh199/WeatherApp-Helm.git
+            cd ./WeatherApp-Helm
+            chmod +x ./version.sh
+            ./version.sh $CIRCLE_WORKFLOW_ID
+
+      - run:
+          name: deploy the app
+          command: |
+            argocd repo add https://github.com/bensh199/WeatherApp-Helm --username bensh99 --password $REPO_TOKEN
+            kubectl apply -f WeatherApp-Helm/application.yaml
 
 workflows:
-  test-terraform:
-    jobs:
-      - terratest
+  test-terraform-and-deploy-infra:
+      jobs:
+        - terratest
 
-  # build-image-and-test-image:
-  #   jobs:
-  #     - build
-  #     - test:
-  #         requires:
-  #           - build 
+  build-image-and-test-image:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - dev
+      - test:
+          filters:
+            branches:
+              only:
+                - dev
+          requires:
+            - build
+      - publish:
+          filters:
+            branches:
+              only:
+                - dev
+          requires:
+            - test
+
+  deploy-app:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - production
+          requires:
+            - publish
+        
