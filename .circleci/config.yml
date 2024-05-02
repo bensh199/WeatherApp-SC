@@ -55,7 +55,7 @@ jobs:
           name: run terratest
           command: |
             export TF_VAR_ROOT_PATH=$(pwd)
-            export KUBE_CONFIG_PATH=/path/to/.kube/config
+            export KUBE_CONFIG_PATH=/home/circleci/.kube/config
             env
             cd WeatherApp-infra/Terraform/Terraform-modules/Tests
             go mod init test
