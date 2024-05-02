@@ -106,7 +106,7 @@ jobs:
       - run:
           name: login to docker-hub
           command: |
-             command: docker login -u $DOCKER_HUB_USER	 -p $DOCKER_HUB_TOKEN
+             command: docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_TOKEN
 
       - run:
           name: publish to production
