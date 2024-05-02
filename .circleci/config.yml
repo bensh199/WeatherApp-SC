@@ -14,6 +14,11 @@ jobs:
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
 
       - run:
+          name: update kube config
+          command: |
+            aws eks update-kubeconfig --name Lab4-EKS-tf --region il-central-1
+
+      - run:
           name: run terratest
           command: |
             export TF_VAR_ROOT_PATH=$(pwd)
