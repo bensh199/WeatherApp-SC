@@ -58,8 +58,8 @@ jobs:
             echo $CIRCLE_PIPELINE_ID
             echo $CIRCLE_PROJECT_ID
             echo $CIRCLE_WORKFLOW_ID
-            echo $pipeline.number
-            PIPELINE_NUMBER=pipeline.number
+            echo << pipeline.project.git_url >>
+            PIPELINE_NUMBER=<< pipeline.project.git_url >>
             echo $PIPELINE_NUMBER
             echo #########################
             docker build -t bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID ./Python-Project/.
