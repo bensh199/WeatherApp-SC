@@ -92,7 +92,7 @@ jobs:
           command: |
             pwd
             ls -laR
-            docker pull bensh99/weatherapp:V1.<< pipeline.number >>
+            docker pull bensh99/weatherapp-features:V1.<< pipeline.number >>
             docker run --rm --name weatherapp -p 8000:8000 -d bensh99/weatherapp:V1.<< pipeline.number >>
             python3 Python-Project/test.py
 
