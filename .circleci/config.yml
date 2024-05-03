@@ -62,7 +62,7 @@ jobs:
           name: publish docker pre-test
           command: |
             docker push bensh99/weatherapp:V1.$CIRCLE_WORKFLOW_ID
-            docker push bensh99/weatherapp:latest
+            docker push bensh99/weatherapp-features:latest
       
       # - run:
       #     name: save image as artifact
