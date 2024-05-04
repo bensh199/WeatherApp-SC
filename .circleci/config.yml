@@ -123,8 +123,10 @@ jobs:
     steps:
       - run:
           command: |
+            export ROOT_PATH=$(pwd)
             git clone https://$TF_VAR_HELM_REPO_PAT@github.com/bensh199/WeatherApp-Helm.git
-            chmod +x $TF_VAR_ROOT_PATH/version.sh V1.<< pipeline.number >>
+            chmod +x $ROOT_PATH/version.sh
+            ./WeatherApp-Helm/version.sh V1.<< pipeline.number >>
       # - run:
       #     name: setup kubeconfig
       #     command: |
@@ -169,9 +171,9 @@ workflows:
               branches:
                 only:
                   - main
-                  - production
+                  # - production
 
-  build-image-and-test-image-deploy:
+  build-test-and-deploy-image:
     jobs:
       - build:
           filters:
