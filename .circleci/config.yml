@@ -212,5 +212,5 @@ workflows:
             branches:
               only:
                 - production
-
-                # test
+          requires:
+            - hold
