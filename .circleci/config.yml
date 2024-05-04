@@ -129,8 +129,9 @@ jobs:
             git config --global user.email $GITHUB_EMAIL
             git config --global user.name $GITHUB_USERNAME 
             chmod +x $ROOT_PATH/WeatherApp-Helm/version.sh
-            ./WeatherApp-Helm/version.sh V1.<< pipeline.number >> $ROOT_PATH
+            ./version.sh V1.<< pipeline.number >> $ROOT_PATH
             git commit -am "CircleCI Action: helm values have been updated, pipeline number: << pipeline.number >>"
+            git push
             
       # - run:
       #     name: setup kubeconfig
