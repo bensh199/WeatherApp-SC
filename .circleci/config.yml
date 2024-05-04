@@ -124,7 +124,7 @@ jobs:
       - run:
           command: |
             export ROOT_PATH=$(pwd)
-            git clone https://$TF_VAR_HELM_REPO_PAT@github.com/bensh199/WeatherApp-Helm.git
+            git clone https://$HELM_REPO_TOKEN@github.com/bensh199/WeatherApp-Helm.git
             cd WeatherApp-Helm
             git config --global user.email $GITHUB_EMAIL
             git config --global user.name $GITHUB_USERNAME 
