@@ -125,7 +125,7 @@ jobs:
           command: |
             export ROOT_PATH=$(pwd)
             git clone https://$TF_VAR_HELM_REPO_PAT@github.com/bensh199/WeatherApp-Helm.git
-            chmod +x $ROOT_PATH/version.sh
+            chmod +x $ROOT_PATH//WeatherApp-Helm/version.sh
             ./WeatherApp-Helm/version.sh V1.<< pipeline.number >>
       # - run:
       #     name: setup kubeconfig
