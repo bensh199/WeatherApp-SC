@@ -199,6 +199,10 @@ workflows:
     jobs:
       - hold:
           type: approval
+          filters:
+            branches:
+              only:
+                - production
       - deploy:
           filters:
             branches:
