@@ -125,8 +125,13 @@ jobs:
           command: |
             export ROOT_PATH=$(pwd)
             git clone https://$TF_VAR_HELM_REPO_PAT@github.com/bensh199/WeatherApp-Helm.git
-            chmod +x $ROOT_PATH//WeatherApp-Helm/version.sh
-            ./WeatherApp-Helm/version.sh V1.<< pipeline.number >>
+            cd WeatherApp-Helm
+            git config --global user.email $GITHUB_EMAIL
+            sh 'git config --global user.name $GITHUB_USERNAME 
+            chmod +x $ROOT_PATH/WeatherApp-Helm/version.sh
+            ./WeatherApp-Helm/version.sh V1.<< pipeline.number >> $ROOT_PATH
+            git commit -am "CircleCI Action: helm values have been updated, pipeline number: << pipeline.number >>"
+            
       # - run:
       #     name: setup kubeconfig
       #     command: |
