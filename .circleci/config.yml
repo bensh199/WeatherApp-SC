@@ -177,7 +177,7 @@ workflows:
               branches:
                 only:
                   - main
-                  # - production
+                  - production
 
   build-test-and-deploy-image:
     jobs:
