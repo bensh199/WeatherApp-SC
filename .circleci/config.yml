@@ -9,20 +9,21 @@ jobs:
       - image: bensh99/circleci-terratest:latest
     steps:
       - run:
-          name: pull infra repo
+          name: clone infra and helm repo's
           command: |
             git clone https://$INFRA_REPO_TOKEN@github.com/bensh199/WeatherApp-infra.git
+            git clone https://$TF_VAR_HELM_REPO_PAT@github.com/bensh199/WeatherApp-Helm.git
 
-      - run:
-          name: update kube config
-          command: |
-            aws eks update-kubeconfig --name Lab4-EKS-tf --region il-central-1
+      # - run:
+      #     name: update kube config
+      #     command: |
+      #       aws eks update-kubeconfig --name Lab4-EKS-tf --region il-central-1
 
       - run:
           name: run terratest
           command: |
             export TF_VAR_ROOT_PATH=$(pwd)
-            export KUBE_CONFIG_PATH=/home/circleci/.kube/config
+            export KUBE_CONFIG_PATH=~/.kube/config
             env
             cd WeatherApp-infra/Terraform/Terraform-modules/Tests
             go mod init test
@@ -164,6 +165,7 @@ workflows:
               branches:
                 only:
                   - main
+                  - production
 
   build-image-and-test-image-deploy:
     jobs:
@@ -173,12 +175,14 @@ workflows:
               only:
                 - dev
                 - main
+                - production
       - test:
           filters:
             branches:
               only:
                 - dev
                 - main
+                - production
           requires:
             - build
       - publish:
@@ -187,14 +191,16 @@ workflows:
               only:
                 - dev
                 - main
+                - production
           requires:
             - test
+
+  deploy-to-production:
+    jobs:
+      - hold:
+          type: approval
       - deploy:
           filters:
             branches:
               only:
                 - production
-          requires:
-            - publish
-
-            # test
