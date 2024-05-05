@@ -64,15 +64,6 @@ jobs:
           command: |
             docker push bensh99/weatherapp-features:V1.<< pipeline.number >>
             docker push bensh99/weatherapp-features:latest
-      
-      # - run:
-      #     name: save image as artifact
-      #     command: |
-      #       docker save bensh99/weatherapp-features:V1.<< pipeline.number >> > /home/circleci/project/bensh99/weatherapp-features:V1.<< pipeline.number >>.tar
-
-      # - store_artifacts:
-      #     path: /home/circleci/project
-      #     destination: bensh99/weatherapp-features:V1.<< pipeline.number >>.tar
 
   test:
     docker:
@@ -132,42 +123,6 @@ jobs:
             ./version.sh V1.<< pipeline.number >> $ROOT_PATH
             git commit -am "CircleCI Action: helm values have been updated, pipeline number: << pipeline.number >>"
             git push
-            
-      # - run:
-      #     name: setup kubeconfig
-      #     command: |
-      #       mkdir -p /home/.kube
-
-      # - attach_workspace:
-      #     at: /home/.kube
-
-      # - run:
-      #     name: install argocd
-      #     command: |
-      #       curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-      #       sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-      #       rm argocd-linux-amd64
-
-      # - run:
-      #     name: login to the argocd server
-      #     command: |
-      #       export KUBE_CONFIG_PATH=/home/circleci/.kube/config
-      #       ARGOCD_ADMIN_PASS=argocd admin initial-password - argocd
-      #       argocd login argocd.whats-the-weather.com:443 --username admin --password $ARGOCD_ADMIN_PASS
-
-      # - run:
-      #     name: clone and update helm repo
-      #     command: |
-      #       git clone https://$HELM_REPO_TOKEN@github.com/bensh199/WeatherApp-Helm.git
-      #       cd ./WeatherApp-Helm
-      #       chmod +x ./version.sh
-      #       ./version.sh << pipeline.number >>
-
-      # - run:
-      #     name: deploy the app
-      #     command: |
-      #       argocd repo add https://github.com/bensh199/WeatherApp-Helm --username bensh99 --password $REPO_TOKEN
-      #       kubectl apply -f WeatherApp-Helm/application.yaml
 
 workflows:
   test-terraform-and-deploy-infra:
