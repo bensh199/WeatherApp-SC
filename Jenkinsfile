@@ -1,24 +1,30 @@
 pipeline {
     agent any
 
-    environment {
-        SONAR_SCANNER = tool 'SonarScanner'
-        SNYK = tool name: 'Snyk@Latest'
-    }
+    // environment {
+    //     SONAR_SCANNER = tool 'SonarScanner'
+    //     SNYK = tool name: 'Snyk@Latest'
+    // }
 
     stages {
 
-        stage('Static analysis') {
+        stage {
             steps {
-                withSonarQubeEnv(installationName: 'SonarScanner') {
-                    sh "${SONAR_SCANNER}/bin/sonar-scanner \
-                        -Dsonar.organization=bensh199 \
-                        -Dsonar.projectKey=bensh199_weatherapp-eks \
-                        -Dsonar.sources=./Python-Project \
-                        -Dsonar.python.coverage.reportPaths=coverage.xml \
-                        -Dsonar.python.xunit.reportPaths=test_results.xml"
-                }
+                sh"echo hello"
             }
+        }
+
+        // stage('Static analysis') {
+        //     steps {
+        //         withSonarQubeEnv(installationName: 'SonarScanner') {
+        //             sh "${SONAR_SCANNER}/bin/sonar-scanner \
+        //                 -Dsonar.organization=bensh199 \
+        //                 -Dsonar.projectKey=bensh199_weatherapp-eks \
+        //                 -Dsonar.sources=./Python-Project \
+        //                 -Dsonar.python.coverage.reportPaths=coverage.xml \
+        //                 -Dsonar.python.xunit.reportPaths=test_results.xml"
+        //         }
+        //     }
     //     }
 
     //     stage('build') {
@@ -116,12 +122,13 @@ pipeline {
     //     }
     // }
 
-    post {
-        always {
-            // sh 'docker logout'
-            // cleanWs(deleteDirs: true,
-            //         disableDeferredWipeout: true)
-            slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
+        post {
+            always {
+                // sh 'docker logout'
+                // cleanWs(deleteDirs: true,
+                //         disableDeferredWipeout: true)
+                slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
+            }
         }
     }
 }
