@@ -13,14 +13,13 @@ pipeline {
                 sh"echo hello"
             }
         }
-
-        post {
-            always {
-                // sh 'docker logout'
-                // cleanWs(deleteDirs: true,
-                //         disableDeferredWipeout: true)
-                slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
-            }
+    }
+    post {
+        always {
+            // sh 'docker logout'
+            // cleanWs(deleteDirs: true,
+            //         disableDeferredWipeout: true)
+            slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
         }
     }
 }
