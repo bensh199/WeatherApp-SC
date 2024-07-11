@@ -8,9 +8,10 @@ pipeline {
 
     stages {
 
-        stage ("hello"){
+        stage ("create file"){
             steps {
-                sh"echo hello"
+                sh"echo hello > test.txt"
+                sh"mv test.txt /tmp/test.txt"
             }
         }
     }
@@ -20,6 +21,8 @@ pipeline {
             // cleanWs(deleteDirs: true,
             //         disableDeferredWipeout: true)
             slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
+            slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test.txt", initialComment:  "upload test:"
+            slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test.txt"
         }
     }
 }
