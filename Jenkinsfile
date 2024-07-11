@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh"echo hello > test1.txt"
                 sh"echo hello > test2.txt"
-                sh"mv test.txt /tmp/test.txt"
+                sh"mv test1.txt /tmp/test.txt"
                 sh"mv test2.txt /tmp/test2.txt"
             }
         }
