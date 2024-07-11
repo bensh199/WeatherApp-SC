@@ -5,7 +5,7 @@ pipeline {
     //     SONAR_SCANNER = tool 'SonarScanner'
     //     SNYK = tool name: 'Snyk@Latest'
     // }
-
+    
     stages {
 
         stage("create file") {
@@ -32,7 +32,7 @@ pipeline {
             // sh 'docker logout'
             // cleanWs(deleteDirs: true,
             //         disableDeferredWipeout: true)
-            slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack"
+            slackSend channel: 'jenkins-vulnerabilities-scans', color: "good", message: "test slack, result: https://ci.build.novisign.com/job/Trivy_test/$BUILD_NUMBER/execution/node/$EXECUTOR_NUMBER/ws/trivy_results/" 
         }
     }
 }
