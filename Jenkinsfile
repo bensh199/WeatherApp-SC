@@ -17,11 +17,14 @@ pipeline {
             }
         }
         stage("upload 1") {
-            slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test1.txt", initialComment:  "upload file1:"
-            
+            steps {
+                slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test1.txt", initialComment:  "upload file1:"
+            }
         }
         stage("upload 2") {
-            slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test2.txt", initialComment:  "upload file2:"
+            steps {
+                slackUploadFile channel: 'jenkins-vulnerabilities-scans', filePath: "/tmp/test2.txt", initialComment:  "upload file2:"
+            }
         }
     }
     post {
