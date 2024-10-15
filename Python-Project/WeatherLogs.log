@@ -1,0 +1,64 @@
+[2024-06-05 17:29:24,415][INFO][A user has entered the website]
+[2024-06-05 17:29:25,013][INFO][A user has entered the website]
+[2024-06-05 17:29:33,057][INFO][city entered: Ramle]
+[2024-08-28 20:49:45,280][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.2.1:8000]
+[2024-08-28 20:49:45,280][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 20:49:45,281][INFO][ * Restarting with stat]
+[2024-08-28 20:49:45,469][WARNING][ * Debugger is active!]
+[2024-08-28 20:49:45,478][INFO][ * Debugger PIN: 984-914-612]
+[2024-08-28 20:50:04,364][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.2.1:8000]
+[2024-08-28 20:50:04,364][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 20:50:04,365][INFO][ * Restarting with stat]
+[2024-08-28 20:50:04,547][WARNING][ * Debugger is active!]
+[2024-08-28 20:50:04,553][INFO][ * Debugger PIN: 984-914-612]
+[2024-08-28 20:50:10,176][INFO][A user has entered the website]
+[2024-08-28 20:50:10,181][INFO][127.0.0.1 - - [28/Aug/2024 20:50:10] "GET / HTTP/1.1" 200 -]
+[2024-08-28 20:50:10,239][INFO][127.0.0.1 - - [28/Aug/2024 20:50:10] "GET /static/Whats-the-weather-logo.png HTTP/1.1" 200 -]
+[2024-08-28 20:50:10,239][INFO][127.0.0.1 - - [28/Aug/2024 20:50:10] "GET /static/style.css HTTP/1.1" 200 -]
+[2024-08-28 20:50:10,490][INFO][127.0.0.1 - - [28/Aug/2024 20:50:10] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -]
+[2024-08-28 20:57:54,629][INFO][ * Detected change in '/Users/ben/Documents/WeatherApp-EKS-Helm/WeatherApp-SC/Python-Project/main.py', reloading]
+[2024-08-28 20:57:55,664][INFO][ * Restarting with stat]
+[2024-08-28 20:57:55,946][WARNING][ * Debugger is active!]
+[2024-08-28 20:57:55,952][INFO][ * Debugger PIN: 984-914-612]
+[2024-08-28 20:57:58,746][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000]
+[2024-08-28 20:57:58,746][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 20:57:58,747][INFO][ * Restarting with stat]
+[2024-08-28 20:57:58,940][WARNING][ * Debugger is active!]
+[2024-08-28 20:57:58,945][INFO][ * Debugger PIN: 984-914-612]
+[2024-08-28 20:58:06,259][INFO][A user has entered the website]
+[2024-08-28 20:58:06,264][INFO][127.0.0.1 - - [28/Aug/2024 20:58:06] "GET / HTTP/1.1" 200 -]
+[2024-08-28 20:58:06,321][INFO][127.0.0.1 - - [28/Aug/2024 20:58:06] "[36mGET /static/style.css HTTP/1.1[0m" 304 -]
+[2024-08-28 20:58:06,321][INFO][127.0.0.1 - - [28/Aug/2024 20:58:06] "[36mGET /static/Whats-the-weather-logo.png HTTP/1.1[0m" 304 -]
+[2024-08-28 21:01:35,419][INFO][ * Detected change in '/Users/ben/Documents/WeatherApp-EKS-Helm/WeatherApp-SC/Python-Project/main.py', reloading]
+[2024-08-28 21:01:41,693][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:8000]
+[2024-08-28 21:01:41,693][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 21:01:41,693][INFO][ * Restarting with stat]
+[2024-08-28 21:01:41,868][WARNING][ * Debugger is active!]
+[2024-08-28 21:01:41,875][INFO][ * Debugger PIN: 984-914-612]
+[2024-08-28 21:01:45,109][INFO][A user has entered the website]
+[2024-08-28 21:01:45,136][INFO][127.0.0.1 - - [28/Aug/2024 21:01:45] "GET / HTTP/1.1" 200 -]
+[2024-08-28 21:01:45,184][INFO][127.0.0.1 - - [28/Aug/2024 21:01:45] "[36mGET /static/style.css HTTP/1.1[0m" 304 -]
+[2024-08-28 21:01:45,185][INFO][127.0.0.1 - - [28/Aug/2024 21:01:45] "[36mGET /static/Whats-the-weather-logo.png HTTP/1.1[0m" 304 -]
+[2024-08-28 21:05:07,366][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000]
+[2024-08-28 21:05:07,366][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 21:05:51,776][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000]
+[2024-08-28 21:05:51,777][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 21:06:23,983][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:5000]
+[2024-08-28 21:06:23,983][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 21:06:56,270][INFO][[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://localhost:8000]
+[2024-08-28 21:06:56,270][INFO][[33mPress CTRL+C to quit[0m]
+[2024-08-28 21:06:56,270][INFO][ * Restarting with stat]
+[2024-08-28 21:06:56,441][WARNING][ * Debugger is active!]
+[2024-08-28 21:06:56,447][INFO][ * Debugger PIN: 984-914-612]

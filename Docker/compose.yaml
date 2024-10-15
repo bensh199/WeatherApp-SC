@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  app:
+    build: ../Python-Project
+    ports:
+      - "8000:8000"
+
+  mongodb:
+    image: mongo:latest
+    deploy:
+      replicas: 1
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: admin

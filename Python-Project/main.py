@@ -5,6 +5,7 @@ reviewer:
 
 from flask import Flask, render_template, request, redirect, send_file
 from weather import *
+from mongo import *
 import socket
 from botocore.exceptions import ClientError
 import logging
@@ -33,7 +34,7 @@ def main():
 
         city = request.form['city']
 
-        data = get_weather_data(city)
+        data = query_for_data(city)
 
         save_data_to_file(data)
 
@@ -80,4 +81,4 @@ def download_file(filename):
     return send_file(f'./Searches/{filename}', as_attachment=True)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="localhost", port=8000, debug=True)
